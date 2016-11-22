@@ -16,22 +16,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var lblSDate: UILabel!
     @IBOutlet weak var lblEDate: UILabel!
     
-    let startDate = NSDate()
-    let endDate = NSDate().dateByAddingDays(1)
+    let startDate = Date()
+    let endDate = Date().dateByAddingDays(1)
     let calendarEvent = PSEventHelper() // intialaizing object intially for access
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        lblSDate.text = formatter.stringFromDate(startDate)
-        lblEDate.text = formatter.stringFromDate(endDate)
+        lblSDate.text = formatter.string(from: startDate)
+        lblEDate.text = formatter.string(from: endDate)
         
     }
     
-    @IBAction func toCreateEvent(sender: UIButton) {
+    @IBAction func toCreateEvent(_ sender: UIButton) {
         
         calendarEvent.createSimpleEvent(txtTitle.text, notes: txtNotes.text, andWithDates: (startDate, endDate))
         
@@ -40,12 +40,12 @@ class ViewController: UIViewController {
 
 }
 
-extension NSDate {
-    func dateByAddingDays(days: Int) -> NSDate
+extension Date {
+    func dateByAddingDays(_ days: Int) -> Date
     {
-        let dateComp = NSDateComponents()
+        var dateComp = DateComponents()
         dateComp.day = days
-        return NSCalendar.currentCalendar().dateByAddingComponents(dateComp, toDate: self, options: NSCalendarOptions(rawValue: 0))!
+        return (Calendar.current as NSCalendar).date(byAdding: dateComp, to: self, options: NSCalendar.Options(rawValue: 0))!
     }
 }
 
